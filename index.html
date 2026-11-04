@@ -3,105 +3,298 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A simple introduction to GitHub, the platform for hosting and collaborating on software projects.">
-  <title>GitHub — Build together</title>
+  <meta name="theme-color" content="#090b10">
+  <meta name="description" content="Discover GitHub: a place to build, collaborate, and share software with the world.">
+  <title>GitHub — Build beyond the idea</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
     :root {
       color-scheme: dark;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #0d1117;
-      color: #e6edf3;
+      --bg: #090b10;
+      --surface: #10141d;
+      --surface-raised: #151a25;
+      --line: rgba(218, 228, 255, .12);
+      --ink: #f3f5fa;
+      --muted: #9da6b8;
+      --green: #b7f36b;
+      --violet: #a78bfa;
+      --cyan: #73e5e8;
+      --max: 1160px;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --display: 'Manrope', 'DM Sans', system-ui, sans-serif;
+      --mono: 'DM Mono', ui-monospace, monospace;
     }
-    * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100vh; }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    body::before { position: fixed; inset: 0; z-index: -1; content: ''; pointer-events: none; background: radial-gradient(ellipse at 77% 12%, rgba(108, 75, 181, .12), transparent 34%), radial-gradient(ellipse at 12% 48%, rgba(45, 122, 128, .08), transparent 35%); }
     a { color: inherit; }
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 1rem max(1.25rem, calc((100% - 1100px) / 2));
-      border-bottom: 1px solid #30363d;
+    button { font: inherit; }
+    .wrap { width: min(var(--max), calc(100% - 48px)); margin-inline: auto; }
+    .announcement { border-bottom: 1px solid var(--line); color: #cbd1dd; font-size: 12px; text-align: center; padding: 9px 16px; }
+    .announcement a { color: var(--green); text-decoration: none; }
+    .announcement a:hover { text-decoration: underline; }
+    .nav-shell { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid rgba(218, 228, 255, .08); background: rgba(9, 11, 16, .82); backdrop-filter: blur(18px); }
+    .nav { min-height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; font: 800 17px var(--display); letter-spacing: -.05em; }
+    .brand-mark { width: 31px; height: 31px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.25); border-radius: 50%; background: linear-gradient(145deg, #f8f8ff, #b6bdcc); color: #10121a; font-size: 19px; }
+    .nav-links { display: flex; align-items: center; gap: 30px; margin-left: auto; }
+    .nav-links a { color: #c2c8d4; text-decoration: none; font-size: 13px; transition: color .2s ease; }
+    .nav-links a:hover { color: white; }
+    .nav-actions { display: flex; align-items: center; gap: 17px; }
+    .sign-in { color: #d3d8e2; text-decoration: none; font-size: 13px; }
+    .menu-toggle { display: none; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: white; cursor: pointer; }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 46px; padding: 0 19px; border: 1px solid transparent; border-radius: 8px; background: var(--green); color: #10140b; font-size: 13px; font-weight: 700; text-decoration: none; transition: transform .2s, background .2s, border-color .2s; }
+    .button:hover { transform: translateY(-2px); background: #c7ff7c; }
+    .button.secondary { border-color: var(--line); background: rgba(255,255,255,.035); color: #f4f4f7; }
+    .button.secondary:hover { border-color: rgba(255,255,255,.35); background: rgba(255,255,255,.08); }
+    .button.small { min-height: 38px; padding-inline: 14px; font-size: 12px; }
+
+    .hero { display: grid; grid-template-columns: 1.02fr .98fr; align-items: center; gap: 46px; min-height: 660px; padding-block: 70px 82px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; margin: 0 0 23px; color: var(--green); font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .eyebrow::before { width: 20px; height: 1px; content: ''; background: currentColor; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 650px; margin-bottom: 22px; font: 600 clamp(48px, 6vw, 78px)/1.02 var(--display); letter-spacing: -.075em; }
+    .gradient-text { color: transparent; background: linear-gradient(105deg, #c8fa86 2%, #a6e8ac 42%, #a893f8 96%); -webkit-background-clip: text; background-clip: text; }
+    .hero-copy { max-width: 515px; margin-bottom: 28px; color: #aab2c2; font-size: 16px; line-height: 1.8; }
+    .hero-buttons { display: flex; flex-wrap: wrap; gap: 11px; }
+    .hero-note { display: flex; align-items: center; gap: 9px; margin-top: 26px; color: #848d9d; font: 11px var(--mono); }
+    .hero-note span { color: var(--green); }
+    .visual { position: relative; min-height: 430px; display: grid; place-items: center; isolation: isolate; }
+    .visual::before { position: absolute; width: min(94%, 440px); aspect-ratio: 1; border-radius: 50%; content: ''; background: radial-gradient(circle, rgba(151, 110, 233, .2), rgba(54, 87, 124, .08) 48%, transparent 70%); filter: blur(15px); }
+    .orbit { position: absolute; width: 420px; height: 210px; border: 1px solid rgba(174, 193, 225, .18); border-radius: 50%; transform: rotate(-28deg); }
+    .orbit.two { width: 420px; height: 210px; transform: rotate(48deg); border-color: rgba(183, 243, 107, .2); }
+    .orbit.three { width: 340px; height: 340px; border-color: rgba(167, 139, 250, .19); }
+    .orbit-dot { position: absolute; width: 9px; height: 9px; border-radius: 50%; background: var(--green); box-shadow: 0 0 20px var(--green); }
+    .orbit-dot.one { top: 91px; left: 87px; }
+    .orbit-dot.two { right: 59px; bottom: 105px; width: 7px; height: 7px; background: var(--violet); box-shadow: 0 0 18px var(--violet); }
+    .core { position: relative; width: 190px; height: 190px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; background: radial-gradient(circle at 34% 26%, #303343, #171a28 56%, #10131d 80%); box-shadow: 0 0 0 14px rgba(255,255,255,.018), 0 0 85px rgba(148, 112, 220, .22), inset 0 0 45px rgba(165, 143, 228, .12); }
+    .core svg { width: 82px; height: 82px; filter: drop-shadow(0 0 20px rgba(193, 239, 131, .2)); }
+    .float-card { position: absolute; z-index: 2; padding: 13px 15px; border: 1px solid rgba(225, 233, 255, .13); border-radius: 11px; background: rgba(20, 24, 35, .88); box-shadow: 0 14px 40px #0005; backdrop-filter: blur(10px); }
+    .float-card .label { display: block; margin-bottom: 5px; color: #8d96a6; font: 10px var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+    .float-card strong { display: block; font-size: 13px; font-weight: 600; }
+    .float-card .live { color: var(--green); }
+    .float-card.top { top: 54px; right: 2px; }
+    .float-card.bottom { left: 0; bottom: 45px; }
+    .mini-avatars { display: flex; margin-top: 9px; }
+    .mini-avatars span { width: 23px; height: 23px; display: grid; place-items: center; margin-left: -5px; border: 2px solid #141823; border-radius: 50%; background: #8560b8; color: white; font-size: 9px; }
+    .mini-avatars span:first-child { margin-left: 0; background: #39877d; }
+    .mini-avatars span:nth-child(3) { background: #bd7853; }
+    .mini-avatars span:nth-child(4) { background: #657fc4; }
+
+    .proof { padding-block: 23px; border-block: 1px solid var(--line); }
+    .proof-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .proof-label { max-width: 190px; color: #7e8797; font: 10px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+    .proof-words { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; flex: 1; gap: 18px 30px; color: #778092; font: 700 17px var(--display); letter-spacing: -.04em; }
+    .proof-words span:nth-child(2) { font-family: var(--mono); font-size: 13px; letter-spacing: -.06em; }
+    .proof-words span:nth-child(3) { font-style: italic; }
+    .proof-words span:nth-child(4) { font-weight: 500; letter-spacing: .08em; }
+    .proof-words span:nth-child(5) { font-size: 14px; }
+
+    .section { padding-block: 116px; }
+    .section-head { max-width: 690px; margin-bottom: 45px; }
+    .section-head.center { margin-inline: auto; text-align: center; }
+    .section-head.center .eyebrow { justify-content: center; }
+    h2 { margin-bottom: 15px; font: 600 clamp(33px, 4vw, 48px)/1.12 var(--display); letter-spacing: -.06em; }
+    .section-head > p:last-child { margin-bottom: 0; color: var(--muted); line-height: 1.8; }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .feature { min-height: 255px; padding: 25px; border: 1px solid var(--line); border-radius: 13px; background: linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,.012)); transition: transform .25s, border-color .25s; }
+    .feature:hover { transform: translateY(-4px); border-color: rgba(183,243,107,.36); }
+    .feature-icon { width: 39px; height: 39px; display: grid; place-items: center; margin-bottom: 27px; border: 1px solid rgba(183,243,107,.22); border-radius: 10px; background: rgba(183,243,107,.08); color: var(--green); }
+    .feature-icon svg { width: 19px; height: 19px; }
+    .feature h3 { margin-bottom: 9px; font: 600 17px var(--display); letter-spacing: -.03em; }
+    .feature p { margin-bottom: 0; color: #929bad; font-size: 13px; line-height: 1.75; }
+
+    .showcase { display: grid; grid-template-columns: .92fr 1.08fr; align-items: center; gap: 75px; padding: 35px; border: 1px solid var(--line); border-radius: 18px; background: radial-gradient(ellipse at 85% 20%, rgba(104,80,164,.13), transparent 40%), #0e1119; }
+    .showcase .section-head { margin: 0; }
+    .showcase h2 { font-size: clamp(32px, 4vw, 43px); }
+    .showcase-list { display: grid; gap: 17px; margin: 28px 0 0; padding: 0; list-style: none; }
+    .showcase-list li { display: flex; gap: 12px; color: #bac1ce; font-size: 13px; line-height: 1.6; }
+    .check { flex: 0 0 19px; width: 19px; height: 19px; display: grid; place-items: center; margin-top: 1px; border-radius: 50%; background: rgba(183,243,107,.12); color: var(--green); font-size: 11px; }
+    .terminal { overflow: hidden; border: 1px solid rgba(225,233,255,.13); border-radius: 12px; background: #0a0c12; box-shadow: 0 20px 70px #0005; }
+    .terminal-bar { display: flex; align-items: center; gap: 6px; padding: 12px 14px; border-bottom: 1px solid rgba(225,233,255,.1); }
+    .terminal-bar span { width: 7px; height: 7px; border-radius: 50%; background: #f07d78; }
+    .terminal-bar span:nth-child(2) { background: #edc36a; }
+    .terminal-bar span:nth-child(3) { background: #76c887; }
+    .terminal-title { margin-left: auto; color: #737d8e; font: 10px var(--mono); }
+    .code { overflow-x: auto; padding: 22px 24px 25px; color: #b9c3d2; font: 12px/2 var(--mono); }
+    .code .comment { color: #6d7889; }
+    .code .command { color: var(--green); }
+    .code .key { color: #b89cf9; }
+    .code .string { color: #8dd9dc; }
+    .code .indent { padding-left: 19px; }
+    .code .indent2 { padding-left: 38px; }
+
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; counter-reset: step; }
+    .step { position: relative; padding-top: 25px; border-top: 1px solid var(--line); counter-increment: step; }
+    .step::before { content: '0' counter(step); color: var(--green); font: 11px var(--mono); letter-spacing: .08em; }
+    .step h3 { margin: 17px 0 9px; font: 600 17px var(--display); }
+    .step p { max-width: 300px; margin: 0; color: #929bad; font-size: 13px; line-height: 1.75; }
+
+    .cta { position: relative; overflow: hidden; margin-bottom: 100px; padding: 70px 30px; border: 1px solid rgba(183,243,107,.19); border-radius: 18px; background: radial-gradient(ellipse at 50% 130%, rgba(119,163,75,.22), transparent 55%), linear-gradient(120deg, #111720, #10131c 55%, #171325); text-align: center; }
+    .cta::before, .cta::after { position: absolute; width: 260px; height: 260px; border: 1px solid rgba(183,243,107,.08); border-radius: 50%; content: ''; pointer-events: none; }
+    .cta::before { top: -180px; left: -40px; box-shadow: 0 0 0 25px rgba(183,243,107,.025), 0 0 0 50px rgba(183,243,107,.018); }
+    .cta::after { right: -120px; bottom: -180px; box-shadow: 0 0 0 25px rgba(167,139,250,.025), 0 0 0 50px rgba(167,139,250,.018); }
+    .cta .eyebrow { justify-content: center; }
+    .cta h2 { max-width: 620px; margin: 0 auto 13px; }
+    .cta p { max-width: 530px; margin: 0 auto 25px; color: #a5adbb; line-height: 1.75; font-size: 14px; }
+    .footer { padding: 27px 0 35px; border-top: 1px solid var(--line); }
+    .footer-main { display: flex; align-items: flex-start; justify-content: space-between; gap: 40px; }
+    .footer-brand p { max-width: 270px; margin: 13px 0 0; color: #858e9d; font-size: 12px; line-height: 1.7; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 24px; }
+    .footer-links a { color: #9ba4b3; font-size: 12px; text-decoration: none; }
+    .footer-links a:hover { color: white; }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 18px; margin-top: 35px; padding-top: 17px; border-top: 1px solid rgba(218,228,255,.07); color: #6f7888; font-size: 10px; line-height: 1.6; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    :focus-visible { outline: 2px solid var(--green); outline-offset: 4px; border-radius: 3px; }
+
+    @media (max-width: 900px) {
+      .nav-links { gap: 17px; }
+      .hero { gap: 20px; min-height: 600px; }
+      .visual { transform: scale(.88); }
+      .showcase { gap: 32px; padding: 27px; }
+      .proof-words { gap: 15px; }
     }
-    .brand { display: flex; align-items: center; gap: .7rem; font-weight: 700; font-size: 1.15rem; text-decoration: none; }
-    .mark { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: #f0f6fc; color: #0d1117; font-weight: 800; }
-    .topbar nav { display: flex; gap: 1.25rem; color: #c9d1d9; font-size: .95rem; }
-    .topbar nav a { text-decoration: none; }
-    .topbar nav a:hover, .text-link:hover { text-decoration: underline; }
-    main { width: min(100% - 2rem, 1100px); margin: 0 auto; }
-    .hero { padding: clamp(4rem, 11vw, 8rem) 0 5rem; text-align: center; }
-    .eyebrow { color: #7ee787; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; font-size: .8rem; }
-    h1 { max-width: 800px; margin: 1rem auto; font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1.05; letter-spacing: -.055em; }
-    .lead { max-width: 650px; margin: 1.25rem auto 2rem; color: #aab4bf; font-size: clamp(1.05rem, 2.3vw, 1.3rem); line-height: 1.7; }
-    .button { display: inline-block; padding: .85rem 1.25rem; border-radius: .55rem; background: #238636; color: #fff; font-weight: 700; text-decoration: none; box-shadow: 0 4px 14px #0005; }
-    .button:hover { background: #2ea043; }
-    .section-title { margin: 0 0 .75rem; text-align: center; font-size: 2rem; }
-    .section-copy { margin: 0 auto 2rem; max-width: 650px; color: #aab4bf; text-align: center; line-height: 1.7; }
-    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding-bottom: 4rem; }
-    .card { padding: 1.5rem; border: 1px solid #30363d; border-radius: .75rem; background: #161b22; }
-    .card h3 { margin: .2rem 0 .6rem; }
-    .card p { margin: 0; color: #aab4bf; line-height: 1.65; }
-    .icon { font-size: 1.5rem; }
-    footer { border-top: 1px solid #30363d; padding: 1.5rem 1rem; color: #8b949e; text-align: center; font-size: .9rem; }
-    footer p { margin: .35rem; }
-    .text-link { color: #58a6ff; }
-    @media (max-width: 650px) {
-      .topbar { align-items: flex-start; flex-direction: column; }
-      .topbar nav { flex-wrap: wrap; gap: .8rem 1rem; }
-      .cards { grid-template-columns: 1fr; }
-      .hero { padding-top: 4rem; }
+    @media (max-width: 700px) {
+      .wrap { width: min(var(--max), calc(100% - 36px)); }
+      .nav { min-height: 66px; }
+      .menu-toggle { display: grid; place-items: center; }
+      .nav-actions { margin-left: auto; }
+      .nav-actions .sign-in, .nav-actions .button { display: none; }
+      .nav-links { position: absolute; top: 65px; left: 0; right: 0; display: none; padding: 12px 18px 20px; border-bottom: 1px solid var(--line); background: #0c0f16; }
+      .nav-links.open { display: grid; gap: 0; }
+      .nav-links a { padding: 13px 4px; border-bottom: 1px solid rgba(255,255,255,.06); }
+      .hero { grid-template-columns: 1fr; gap: 5px; min-height: 0; padding-block: 74px 48px; }
+      h1 { max-width: 600px; font-size: clamp(49px, 12vw, 72px); }
+      .hero-copy { font-size: 15px; }
+      .visual { min-height: 350px; transform: scale(.82); margin: -5px -25px -10px; }
+      .orbit { width: 360px; height: 180px; }
+      .orbit.two { width: 360px; height: 180px; }
+      .orbit.three { width: 290px; height: 290px; }
+      .proof-inner { align-items: flex-start; flex-direction: column; }
+      .proof-label { max-width: 300px; }
+      .proof-words { width: 100%; justify-content: flex-start; gap: 19px 28px; }
+      .section { padding-block: 82px; }
+      .feature-grid { grid-template-columns: repeat(2, 1fr); }
+      .feature { min-height: 235px; padding: 21px; }
+      .showcase { grid-template-columns: 1fr; gap: 30px; padding: 24px; }
+      .steps { gap: 22px; }
+      .cta { margin-bottom: 70px; padding: 55px 20px; }
+      .footer-main { flex-direction: column; gap: 27px; }
+    }
+    @media (max-width: 470px) {
+      .announcement { font-size: 10px; }
+      .hero { padding-top: 59px; }
+      .hero-buttons { align-items: stretch; flex-direction: column; }
+      .hero-buttons .button { width: 100%; }
+      .visual { min-height: 295px; transform: scale(.7); margin: -14px -45px -18px; }
+      .feature-grid, .steps { grid-template-columns: 1fr; }
+      .feature { min-height: auto; }
+      .feature-icon { margin-bottom: 18px; }
+      .steps { gap: 26px; }
+      .step { padding-top: 18px; }
+      .footer-links { gap: 16px; }
+      .footer-bottom { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
     }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#home" aria-label="GitHub home"><span class="mark" aria-hidden="true">⌘</span> GitHub</a>
-    <nav aria-label="Main navigation">
-      <a href="#features">Features</a>
-      <a href="#about">About</a>
-      <a href="https://github.com/">Visit GitHub</a>
-    </nav>
-  </header>
+  <div class="announcement">A fan-made introduction to the platform that helps developers build together. <a href="https://github.com/about">Learn about GitHub ↗</a></div>
+  <div class="nav-shell">
+    <header class="nav wrap">
+      <a class="brand" href="#home" aria-label="GitHub introduction home"><span class="brand-mark" aria-hidden="true">⌘</span> GitHub</a>
+      <nav class="nav-links" id="site-navigation" aria-label="Main navigation">
+        <a href="#platform">Platform</a><a href="#workflow">How it works</a><a href="#start">Get started</a>
+      </nav>
+      <div class="nav-actions"><a class="sign-in" href="https://github.com/login">Sign in</a><a class="button small" href="https://github.com/signup">Create an account <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-navigation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
+    </header>
+  </div>
 
   <main id="home">
-    <section class="hero" aria-labelledby="hero-title">
-      <p class="eyebrow">Where the world builds software</p>
-      <h1 id="hero-title">Build something great, together.</h1>
-      <p class="lead">GitHub is a platform where developers host code, track changes, and collaborate on projects—from a first webpage to software used around the world.</p>
-      <a class="button" href="https://github.com/signup">Get started with GitHub</a>
-    </section>
-
-    <section id="features" aria-labelledby="features-title">
-      <h2 class="section-title" id="features-title">Everything your project needs</h2>
-      <p class="section-copy">Keep your work organized, share ideas, and make improvements with a community of contributors.</p>
-      <div class="cards">
-        <article class="card">
-          <span class="icon" aria-hidden="true">📦</span>
-          <h3>Store your code</h3>
-          <p>Keep project files and their history together in repositories, so you can see how your work evolves.</p>
-        </article>
-        <article class="card">
-          <span class="icon" aria-hidden="true">🤝</span>
-          <h3>Work together</h3>
-          <p>Share changes, review contributions, and discuss improvements with teammates and the community.</p>
-        </article>
-        <article class="card">
-          <span class="icon" aria-hidden="true">🚀</span>
-          <h3>Make an impact</h3>
-          <p>Discover open-source projects, learn from other developers, and contribute to tools people use.</p>
-        </article>
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <p class="eyebrow">A home for every idea</p>
+        <h1 id="hero-title">The future is <span class="gradient-text">built together.</span></h1>
+        <p class="hero-copy">From your first line of code to the next big thing, GitHub gives you a place to create, share, and make software better—with people everywhere.</p>
+        <div class="hero-buttons"><a class="button" href="https://github.com/signup">Start building for free <span aria-hidden="true">↗</span></a><a class="button secondary" href="#platform">Explore the platform <span aria-hidden="true">↓</span></a></div>
+        <p class="hero-note"><span aria-hidden="true">●</span> Your next idea starts with one repository.</p>
+      </div>
+      <div class="visual" aria-label="Abstract illustration of connected code and collaborators" role="img">
+        <div class="orbit"><i class="orbit-dot one"></i></div><div class="orbit two"><i class="orbit-dot two"></i></div><div class="orbit three"></div>
+        <div class="core"><svg viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M35 25 14 50l21 25M65 25l21 25-21 25M57 16 42 84" stroke="#c5f58a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="float-card top"><span class="label">Your project</span><strong><span class="live">●</span> Ideas in motion</strong></div>
+        <div class="float-card bottom"><span class="label">Better together</span><strong>Made by many minds</strong><div class="mini-avatars" aria-hidden="true"><span>A</span><span>M</span><span>J</span><span>+</span></div></div>
       </div>
     </section>
 
-    <section id="about" class="section-copy" aria-label="About GitHub">
-      <h2 class="section-title">About GitHub</h2>
-      <p>GitHub was launched in 2008 by Tom Preston-Werner, Chris Wanstrath, and P. J. Hyett. It was not developed by Google; GitHub is now owned by Microsoft.</p>
+    <section class="proof" aria-label="About the GitHub community"><div class="proof-inner wrap"><p class="proof-label">A shared home for the people building what comes next</p><div class="proof-words" aria-label="Open source, teams, creators, maintainers, and learners"><span>open source</span><span>{ teams }</span><span>creators</span><span>MAINTAINERS</span><span>curious minds</span></div></div></section>
+
+    <section class="section wrap" id="platform" aria-labelledby="platform-title">
+      <div class="section-head center reveal"><p class="eyebrow">One platform, many possibilities</p><h2 id="platform-title">Everything you need to move an idea forward.</h2><p>Great software is a team effort. Bring your code, conversations, and collaborators into one place—and keep the momentum going.</p></div>
+      <div class="feature-grid">
+        <article class="feature reveal"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 5.5v15M8 7h8M8 11h7"/></svg></div><h3>Keep your work together</h3><p>Repositories keep your files, history, and project discussions organized as your idea grows.</p></article>
+        <article class="feature reveal"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M7 7h10v10H7zM4 4v4M20 4v4M4 16v4M20 16v4M4 4h4M16 4h4M4 20h4M16 20h4"/><path d="m10 12 1.4 1.4L14.5 10"/></svg></div><h3>Make changes with confidence</h3><p>Review proposed changes, compare versions, and talk through improvements before they ship.</p></article>
+        <article class="feature reveal"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 4 7v5c0 5 3.4 7.8 8 9 4.6-1.2 8-4 8-9V7z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Build a stronger workflow</h3><p>Automate routine tasks and checks so your team can spend more time on meaningful work.</p></article>
+        <article class="feature reveal"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3"/><path d="M3 20v-1a6 6 0 0 1 12 0v1zM16 5.5a3 3 0 0 1 0 5.8M18 14a5 5 0 0 1 3 4.5V20h-3"/></svg></div><h3>Find your people</h3><p>Learn in the open, contribute to projects, and collaborate with developers around the world.</p></article>
+        <article class="feature reveal"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19V5M4 19h17M8 15l4-4 3 2 5-6"/><path d="M16 7h4v4"/></svg></div><h3>See how things are going</h3><p>Use issues and project boards to make plans clear and keep everyone moving in the same direction.</p></article>
+        <article class="feature reveal"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1m-8.6 8.6-2.1 2.1"/><circle cx="12" cy="12" r="5"/></svg></div><h3>Make it your own</h3><p>Start small, choose the tools that fit, and shape a workflow that works for your project.</p></article>
+      </div>
     </section>
+
+    <section class="wrap reveal" aria-labelledby="code-title">
+      <div class="showcase">
+        <div class="section-head"><p class="eyebrow">From laptop to collaboration</p><h2 id="code-title">A simple start. Room to grow.</h2><p>Create a repository, make your first change, and invite others in when you’re ready. Your project can evolve at its own pace.</p>
+          <ul class="showcase-list"><li><span class="check">✓</span><span>Keep a clear history of how your project changes.</span></li><li><span class="check">✓</span><span>Discuss ideas and review work in context.</span></li><li><span class="check">✓</span><span>Share your work with the world when it’s ready.</span></li></ul>
+        </div>
+        <div class="terminal" aria-label="Example GitHub workflow"><div class="terminal-bar"><span></span><span></span><span></span><div class="terminal-title">a-project / README.md</div></div><div class="code"><div><span class="comment"># Give your idea a home</span></div><div><span class="command">$</span> git init my-project</div><div><span class="command">$</span> cd my-project</div><div>&nbsp;</div><div><span class="comment"># Save a milestone</span></div><div><span class="command">$</span> git add .</div><div><span class="command">$</span> git commit -m <span class="string">"Start something good"</span></div><div>&nbsp;</div><div><span class="comment"># Then invite your collaborators</span></div><div><span class="key">✦</span> <span class="string">Build in the open. Build together.</span></div></div></div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="workflow" aria-labelledby="workflow-title">
+      <div class="section-head reveal"><p class="eyebrow">A good place to begin</p><h2 id="workflow-title">Three steps from idea to something real.</h2><p>No grand plan required. Start with one small step, then keep learning as you go.</p></div>
+      <div class="steps"><article class="step reveal"><h3>Create a repository</h3><p>Give your project a name and a home. Add a README to tell people what you’re making.</p></article><article class="step reveal"><h3>Build and share</h3><p>Make changes, keep track of your progress, and invite feedback when it helps.</p></article><article class="step reveal"><h3>Grow together</h3><p>Welcome collaborators, learn from the community, and keep improving your work.</p></article></div>
+    </section>
+
+    <section class="cta wrap reveal" id="start" aria-labelledby="cta-title"><p class="eyebrow">Your idea belongs here</p><h2 id="cta-title">Make the next thing together.</h2><p>Explore the platform, find a project that inspires you, or start building something of your own.</p><a class="button" href="https://github.com/signup">Join GitHub <span aria-hidden="true">↗</span></a></section>
   </main>
 
-  <footer>
-    <p>A simple fan-made introduction to GitHub.</p>
-    <p>GitHub is a trademark of GitHub, Inc. This page is not affiliated with or endorsed by GitHub or Google.</p>
-  </footer>
+  <footer class="footer"><div class="wrap"><div class="footer-main"><div class="footer-brand"><a class="brand" href="#home"><span class="brand-mark" aria-hidden="true">⌘</span> GitHub</a><p>A fan-made introduction to GitHub and the people who build together.</p></div><nav class="footer-links" aria-label="Footer navigation"><a href="https://github.com/about">About GitHub</a><a href="https://docs.github.com/">Documentation</a><a href="https://github.com/explore">Explore projects</a><a href="https://github.com/signup">Create an account</a></nav></div><div class="footer-bottom"><span>GitHub was founded in 2008 and is now part of Microsoft.</span><span>Independent fan-made page · Not affiliated with GitHub, Inc. or Google.</span></div></div></footer>
+
+  <script>
+    const menuButton = document.querySelector('.menu-toggle');
+    const navigation = document.querySelector('.nav-links');
+    menuButton.addEventListener('click', () => {
+      const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!isOpen));
+      menuButton.setAttribute('aria-label', isOpen ? 'Open navigation' : 'Close navigation');
+      navigation.classList.toggle('open', !isOpen);
+    });
+    navigation.addEventListener('click', (event) => {
+      if (event.target.closest('a')) {
+        navigation.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Open navigation');
+      }
+    });
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+    } else {
+      document.querySelectorAll('.reveal').forEach((element) => element.classList.add('visible'));
+    }
+  </script>
 </body>
 </html>
