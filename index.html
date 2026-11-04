@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A simple introduction to GitHub, the platform for hosting and collaborating on software projects.">
+  <title>GitHub — Build together</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; }
+    a { color: inherit; }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem max(1.25rem, calc((100% - 1100px) / 2));
+      border-bottom: 1px solid #30363d;
+    }
+    .brand { display: flex; align-items: center; gap: .7rem; font-weight: 700; font-size: 1.15rem; text-decoration: none; }
+    .mark { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: #f0f6fc; color: #0d1117; font-weight: 800; }
+    .topbar nav { display: flex; gap: 1.25rem; color: #c9d1d9; font-size: .95rem; }
+    .topbar nav a { text-decoration: none; }
+    .topbar nav a:hover, .text-link:hover { text-decoration: underline; }
+    main { width: min(100% - 2rem, 1100px); margin: 0 auto; }
+    .hero { padding: clamp(4rem, 11vw, 8rem) 0 5rem; text-align: center; }
+    .eyebrow { color: #7ee787; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; font-size: .8rem; }
+    h1 { max-width: 800px; margin: 1rem auto; font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1.05; letter-spacing: -.055em; }
+    .lead { max-width: 650px; margin: 1.25rem auto 2rem; color: #aab4bf; font-size: clamp(1.05rem, 2.3vw, 1.3rem); line-height: 1.7; }
+    .button { display: inline-block; padding: .85rem 1.25rem; border-radius: .55rem; background: #238636; color: #fff; font-weight: 700; text-decoration: none; box-shadow: 0 4px 14px #0005; }
+    .button:hover { background: #2ea043; }
+    .section-title { margin: 0 0 .75rem; text-align: center; font-size: 2rem; }
+    .section-copy { margin: 0 auto 2rem; max-width: 650px; color: #aab4bf; text-align: center; line-height: 1.7; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding-bottom: 4rem; }
+    .card { padding: 1.5rem; border: 1px solid #30363d; border-radius: .75rem; background: #161b22; }
+    .card h3 { margin: .2rem 0 .6rem; }
+    .card p { margin: 0; color: #aab4bf; line-height: 1.65; }
+    .icon { font-size: 1.5rem; }
+    footer { border-top: 1px solid #30363d; padding: 1.5rem 1rem; color: #8b949e; text-align: center; font-size: .9rem; }
+    footer p { margin: .35rem; }
+    .text-link { color: #58a6ff; }
+    @media (max-width: 650px) {
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .topbar nav { flex-wrap: wrap; gap: .8rem 1rem; }
+      .cards { grid-template-columns: 1fr; }
+      .hero { padding-top: 4rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="GitHub home"><span class="mark" aria-hidden="true">⌘</span> GitHub</a>
+    <nav aria-label="Main navigation">
+      <a href="#features">Features</a>
+      <a href="#about">About</a>
+      <a href="https://github.com/">Visit GitHub</a>
+    </nav>
+  </header>
+
+  <main id="home">
+    <section class="hero" aria-labelledby="hero-title">
+      <p class="eyebrow">Where the world builds software</p>
+      <h1 id="hero-title">Build something great, together.</h1>
+      <p class="lead">GitHub is a platform where developers host code, track changes, and collaborate on projects—from a first webpage to software used around the world.</p>
+      <a class="button" href="https://github.com/signup">Get started with GitHub</a>
+    </section>
+
+    <section id="features" aria-labelledby="features-title">
+      <h2 class="section-title" id="features-title">Everything your project needs</h2>
+      <p class="section-copy">Keep your work organized, share ideas, and make improvements with a community of contributors.</p>
+      <div class="cards">
+        <article class="card">
+          <span class="icon" aria-hidden="true">📦</span>
+          <h3>Store your code</h3>
+          <p>Keep project files and their history together in repositories, so you can see how your work evolves.</p>
+        </article>
+        <article class="card">
+          <span class="icon" aria-hidden="true">🤝</span>
+          <h3>Work together</h3>
+          <p>Share changes, review contributions, and discuss improvements with teammates and the community.</p>
+        </article>
+        <article class="card">
+          <span class="icon" aria-hidden="true">🚀</span>
+          <h3>Make an impact</h3>
+          <p>Discover open-source projects, learn from other developers, and contribute to tools people use.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="section-copy" aria-label="About GitHub">
+      <h2 class="section-title">About GitHub</h2>
+      <p>GitHub was launched in 2008 by Tom Preston-Werner, Chris Wanstrath, and P. J. Hyett. It was not developed by Google; GitHub is now owned by Microsoft.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>A simple fan-made introduction to GitHub.</p>
+    <p>GitHub is a trademark of GitHub, Inc. This page is not affiliated with or endorsed by GitHub or Google.</p>
+  </footer>
+</body>
+</html>
